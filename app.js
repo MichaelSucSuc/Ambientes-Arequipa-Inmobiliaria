@@ -321,6 +321,26 @@ function saveProperties(props) {
 let currentSection = 'frontend';
 
 function navigateTo(section) {
+    // Si navega al panel admin, validar autenticación primero
+    if (section === 'admin') {
+        const isAuth = sessionStorage.getItem('ambientes_authenticated') === 'true';
+        if (!isAuth) {
+            document.querySelectorAll('.page-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            const targetSec = document.getElementById('section-admin');
+            if (targetSec) targetSec.classList.add('active');
+
+            document.getElementById('admin-login-container').style.display = 'flex';
+            document.getElementById('admin-main-panel').style.display = 'none';
+            document.getElementById('nav-menu').classList.remove('active');
+            return;
+        } else {
+            document.getElementById('admin-login-container').style.display = 'none';
+            document.getElementById('admin-main-panel').style.display = 'block';
+        }
+    }
+
     document.querySelectorAll('.page-section').forEach(sec => {
         sec.classList.remove('active');
     });
@@ -887,3 +907,29 @@ window.addEventListener('DOMContentLoaded', () => {
     initDB();
     renderPublicCatalog();
 });
+
+/* ----------------------------------------------------
+   H. AUTENTICACIÓN DEL ADMINISTRADOR
+   ---------------------------------------------------- */
+const ADMIN_PASSWORD = 'admin123';
+
+function checkAdminPassword(event) {
+    event.preventDefault();
+    const passInput = document.getElementById('admin-password-input').value;
+    if (passInput === ADMIN_PASSWORD) {
+        sessionStorage.setItem('ambientes_authenticated', 'true');
+        document.getElementById('admin-login-container').style.display = 'none';
+        document.getElementById('admin-main-panel').style.display = 'block';
+        renderAdmin();
+        showToast('Acceso concedido', 'success');
+        document.getElementById('admin-password-input').value = '';
+    } else {
+        showToast('Contraseña incorrecta', 'error');
+    }
+}
+
+function logoutAdmin() {
+    sessionStorage.removeItem('ambientes_authenticated');
+    navigateTo('frontend');
+    showToast('Sesión cerrada correctamente', 'success');
+}
