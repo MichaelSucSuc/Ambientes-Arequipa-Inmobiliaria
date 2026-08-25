@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AmbientesArequipa | Portal Inmobiliario Exclusivo</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo" onclick="navigateTo('frontend')">
+                <i class="fa-solid fa-house-chimney"></i>
+                Ambientes<span>Arequipa</span>
+            </a>
+            
+            <button class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#" class="nav-link active" id="nav-comprar" onclick="navigateTo('frontend')">Comprar</a></li>
+                <li><a href="#" class="nav-link" id="nav-contacto" onclick="navigateTo('contacto')">Contacto</a></li>
+                <li>
+                    <button class="btn-admin-toggle" onclick="navigateTo('admin')">
+                        <i class="fa-solid fa-lock"></i> Admin Panel
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- MAIN WRAPPER -->
+    <main>
+        
+        <!-- VISTA FRONTEND: HERO Y BUSCADOR + GRILLA -->
+        <div id="section-frontend" class="page-section active">
+            <!-- HERO -->
+            <section class="hero">
+                <div class="container">
+                    <h1 class="hero-title">Tu espacio ideal en Arequipa</h1>
+                    <p class="hero-subtitle">Propiedades exclusivas con sillar y modernidad en las zonas más cotizadas de la Ciudad Blanca.</p>
+                </div>
+            </section>
+
+            <!-- BUSCADOR FLOTANTE -->
+            <div class="container">
+                <div class="search-container">
+                    <form class="search-form" id="search-form" onsubmit="event.preventDefault();">
+                        <div class="search-group">
+                            <label for="filter-location"><i class="fa-solid fa-location-dot"></i> Ubicación</label>
+                            <input type="text" id="filter-location" class="search-input" placeholder="Ej. Cayma, Yanahuara...">
+                        </div>
+                        <div class="search-group">
+                            <label for="filter-type"><i class="fa-solid fa-building"></i> Tipo</label>
+                            <select id="filter-type" class="search-input">
+                                <option value="Todos">Todos los tipos</option>
+                                <option value="Piso">Piso</option>
+                                <option value="Casa">Casa</option>
+                                <option value="Chalet">Chalet</option>
+                                <option value="Ático">Ático</option>
+                                <option value="Local">Local</option>
+                                <option value="Terreno">Terreno</option>
+                            </select>
+                        </div>
+                        <div class="search-group">
+                            <label for="filter-price-min"><i class="fa-solid fa-dollar-sign"></i> Min. (S/)</label>
+                            <input type="number" id="filter-price-min" class="search-input" placeholder="Mínimo">
+                        </div>
+                        <div class="search-group">
+                            <label for="filter-price-max"><i class="fa-solid fa-dollar-sign"></i> Max. (S/)</label>
+                            <input type="number" id="filter-price-max" class="search-input" placeholder="Máximo">
+                        </div>
+                        <div class="search-group">
+                            <label for="filter-bedrooms"><i class="fa-solid fa-bed"></i> Hab.</label>
+                            <select id="filter-bedrooms" class="search-input">
+                                <option value="Todos">Cualquiera</option>
+                                <option value="1">1+</option>
+                                <option value="2">2+</option>
+                                <option value="3">3+</option>
+                                <option value="4">4+</option>
+                                <option value="5">5+</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn-search" onclick="resetFilters()">
+                            <i class="fa-solid fa-rotate-left"></i> Limpiar
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- LISTADO DE PROPIEDADES -->
+            <section style="padding-top: 60px;">
+                <div class="container">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">Propiedades Destacadas</h2>
+                            <p class="section-desc">Encuentra los mejores inmuebles disponibles actualmente.</p>
+                        </div>
+                    </div>
+                    <div class="properties-grid" id="properties-grid">
+                        <!-- Inyectado dinámicamente con JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VISTA CONTACTO GENERAL -->
+        <div id="section-contacto" class="page-section">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Contáctanos</h2>
+                        <p class="section-desc">Estamos listos para asesorarte en tu próxima adquisición.</p>
+                    </div>
+                </div>
+
+                <div class="contact-section-grid">
+                    <div class="contact-info-card">
+                        <h3>AmbientesArequipa</h3>
+                        <p>Brindamos servicios de asesoría inmobiliaria con altos estándares de calidad y exclusividad en Arequipa.</p>
+                        
+                        <div class="contact-methods">
+                            <div class="contact-method-item">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <div class="contact-method-text">
+                                    <h4>Oficina Principal</h4>
+                                    <p>Av. Cayma 512, Cayma, Arequipa, Perú</p>
+                                </div>
+                            </div>
+                            <div class="contact-method-item">
+                                <i class="fa-solid fa-phone"></i>
+                                <div class="contact-method-text">
+                                    <h4>Teléfonos / WhatsApp</h4>
+                                    <p>+51 959656213 / +51 903263397</p>
+                                </div>
+                            </div>
+                            <div class="contact-method-item">
+                                <i class="fa-solid fa-envelope"></i>
+                                <div class="contact-method-text">
+                                    <h4>Email Corporativo</h4>
+                                    <p>contacto@ambientesarequipa.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-card">
+                        <h3>Envíanos un Mensaje</h3>
+                        <br>
+                        <form class="contact-form" onsubmit="handleGeneralContact(event)">
+                            <div class="form-group">
+                                <label for="gen-name">Nombre Completo</label>
+                                <input type="text" id="gen-name" class="form-input" required placeholder="Tu nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="gen-email">Email</label>
+                                <input type="email" id="gen-email" class="form-input" required placeholder="Tu correo electrónico">
+                            </div>
+                            <div class="form-group">
+                                <label for="gen-phone">Teléfono</label>
+                                <input type="tel" id="gen-phone" class="form-input" placeholder="Tu número telefónico">
+                            </div>
+                            <div class="form-group">
+                                <label for="gen-message">Mensaje</label>
+                                <textarea id="gen-message" rows="4" class="form-input" required placeholder="¿En qué propiedad o zona estás interesado?"></textarea>
+                            </div>
+                            <button type="submit" class="btn-submit-contact">Enviar Mensaje</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA ADMIN PANEL -->
+        <div id="section-admin" class="page-section">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Panel de Administración</h2>
+                        <p class="section-desc">Administra el inventario de propiedades y actualiza el catálogo.</p>
+                    </div>
+                    <button class="btn-cancel" onclick="navigateTo('frontend')" style="font-weight: 600;">
+                        <i class="fa-solid fa-chevron-left"></i> Volver al Catálogo
+                    </button>
+                </div>
+
+                <!-- Dashboard Stats -->
+                <div class="admin-dashboard">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-num" id="stat-total">0</span>
+                            <span class="stat-label">Total Propiedades</span>
+                        </div>
+                        <div class="stat-icon-box stat-icon-1">
+                            <i class="fa-solid fa-hotel"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-num" id="stat-disponibles">0</span>
+                            <span class="stat-label">Disponibles</span>
+                        </div>
+                        <div class="stat-icon-box stat-icon-2">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-num" id="stat-vendidas">0</span>
+                            <span class="stat-label">Vendidas / Reservadas</span>
+                        </div>
+                        <div class="stat-icon-box stat-icon-3">
+                            <i class="fa-solid fa-rectangle-ad"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón Agregar -->
+                <div class="admin-actions" id="admin-actions-bar">
+                    <button class="btn-add-property" onclick="showForm()">
+                        <i class="fa-solid fa-circle-plus"></i> Agregar Propiedad
+                    </button>
+                </div>
+
+                <!-- Formulario Form (Oculto por defecto, Toggleable) -->
+                <div id="form-container" style="display: none;" class="form-section-container">
+                    <div class="form-title-bar">
+                        <h3 id="form-title">Agregar Nueva Propiedad</h3>
+                        <button onclick="hideForm()" style="font-size: 1.5rem; color: var(--anthracite);"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+
+                    <form class="property-form" id="property-form" onsubmit="saveProperty(event)">
+                        <input type="hidden" id="prop-id">
+                        
+                        <!-- SECCIÓN 1: Información Básica -->
+                        <fieldset>
+                            <legend><i class="fa-solid fa-info"></i> Información Básica</legend>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label for="prop-title">Título de la propiedad *</label>
+                                    <input type="text" id="prop-title" class="form-input" required placeholder="Ej. Hermosa Residencia en Yanahuara">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-reference">Referencia (Autogenerada)</label>
+                                    <input type="text" id="prop-reference" class="form-input" disabled placeholder="AR-XXXX">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-grid-3">
+                                <div class="form-group">
+                                    <label for="prop-type">Tipo de Propiedad *</label>
+                                    <select id="prop-type" class="form-input" required>
+                                        <option value="Piso">Piso</option>
+                                        <option value="Casa">Casa</option>
+                                        <option value="Chalet">Chalet</option>
+                                        <option value="Ático">Ático</option>
+                                        <option value="Local">Local</option>
+                                        <option value="Terreno">Terreno</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-price">Precio (S/) *</label>
+                                    <input type="number" id="prop-price" class="form-input" required min="0" placeholder="Ej. 450000">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-status">Estado *</label>
+                                    <select id="prop-status" class="form-input" required>
+                                        <option value="Disponible">Disponible</option>
+                                        <option value="Reservada">Reservada</option>
+                                        <option value="Vendida">Vendida</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="prop-description">Descripción detallada *</label>
+                                <textarea id="prop-description" class="form-input" rows="4" required placeholder="Detalles de habitaciones, acabados, cercanía a servicios..."></textarea>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECCIÓN 2: Características Físicas -->
+                        <fieldset>
+                            <legend><i class="fa-solid fa-ruler-combined"></i> Características Físicas</legend>
+                            <div class="form-grid-4">
+                                <div class="form-group">
+                                    <label for="prop-built">Sup. Construida (m²)</label>
+                                    <input type="number" id="prop-built" class="form-input" min="0" placeholder="Ej. 120">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-usable">Sup. Útil (m²)</label>
+                                    <input type="number" id="prop-usable" class="form-input" min="0" placeholder="Ej. 100">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-plot">Sup. Parcela (m²)</label>
+                                    <input type="number" id="prop-plot" class="form-input" min="0" placeholder="Ej. 200">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-bedrooms">Dormitorios</label>
+                                    <input type="number" id="prop-bedrooms" class="form-input" min="0" placeholder="Ej. 3">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-grid-4">
+                                <div class="form-group">
+                                    <label for="prop-bathrooms">Baños completos</label>
+                                    <input type="number" id="prop-bathrooms" class="form-input" min="0" placeholder="Ej. 2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-toilets">Aseos/Medios Baños</label>
+                                    <input type="number" id="prop-toilets" class="form-input" min="0" placeholder="Ej. 1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-floor">Planta/Piso Nro.</label>
+                                    <input type="number" id="prop-floor" class="form-input" min="0" placeholder="Ej. 3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-year">Año de Construcción</label>
+                                    <input type="number" id="prop-year" class="form-input" min="1800" max="2030" placeholder="Ej. 2020">
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECCIÓN 3: Ubicación -->
+                        <fieldset>
+                            <legend><i class="fa-solid fa-map-location-dot"></i> Ubicación exacta</legend>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label for="prop-address">Dirección de la propiedad *</label>
+                                    <input type="text" id="prop-address" class="form-input" required placeholder="Ej. Calle Jerusalén 204">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-city">Ciudad</label>
+                                    <input type="text" id="prop-city" class="form-input" value="Arequipa">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-grid-3">
+                                <div class="form-group">
+                                    <label for="prop-postal">Código Postal</label>
+                                    <input type="text" id="prop-postal" class="form-input" placeholder="Ej. 04001">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-province">Provincia</label>
+                                    <input type="text" id="prop-province" class="form-input" value="Arequipa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-country">País</label>
+                                    <input type="text" id="prop-country" class="form-input" value="Perú">
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECCIÓN 4: Servicios y Características -->
+                        <fieldset>
+                            <legend><i class="fa-solid fa-square-check"></i> Servicios y Características</legend>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item"><input type="checkbox" value="Ascensor" name="features"> Ascensor</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Terraza/Balcón" name="features"> Terraza / Balcón</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Jardín" name="features"> Jardín</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Piscina" name="features"> Piscina</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Garaje" name="features"> Garaje</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Trastero" name="features"> Depósito / Trastero</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Aire Acondicionado" name="features"> Aire Acondicionado</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Calefacción" name="features"> Calefacción</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Amueblado" name="features"> Amueblado</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Cocina Equipada" name="features"> Cocina Equipada</label>
+                                <label class="checkbox-item"><input type="checkbox" value="Accesibilidad" name="features"> Accesibilidad</label>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECCIÓN 5: Eficiencia Energética -->
+                        <fieldset>
+                            <legend><i class="fa-solid fa-leaf"></i> Eficiencia Energética</legend>
+                            <div class="form-group" style="max-width: 300px;">
+                                <label for="prop-energy">Clasificación Energética</label>
+                                <select id="prop-energy" class="form-input">
+                                    <option value="A">Clase A (Más Eficiente)</option>
+                                    <option value="B">Clase B</option>
+                                    <option value="C">Clase C</option>
+                                    <option value="D">Clase D</option>
+                                    <option value="E">Clase E</option>
+                                    <option value="F">Clase F</option>
+                                    <option value="G">Clase G (Menos Eficiente)</option>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECCIÓN 6: Imágenes (URLs) -->
+                        <fieldset>
+                            <legend><i class="fa-solid fa-images"></i> Galería de Imágenes (URLs de fotos)</legend>
+                            <div class="form-group">
+                                <label for="prop-img-1">URL Imagen 1 (Principal) *</label>
+                                <input type="url" id="prop-img-1" class="form-input" required placeholder="https://ejemplo.com/foto1.jpg">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="prop-img-2">URL Imagen 2</label>
+                                <input type="url" id="prop-img-2" class="form-input" placeholder="https://ejemplo.com/foto2.jpg">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="prop-img-3">URL Imagen 3</label>
+                                <input type="url" id="prop-img-3" class="form-input" placeholder="https://ejemplo.com/foto3.jpg">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECCIÓN 7: Información del Agente e Destacado -->
+                        <fieldset>
+                            <legend><i class="fa-solid fa-user-tie"></i> Agente Asignado e Destaque</legend>
+                            <div class="form-grid-3">
+                                <div class="form-group">
+                                    <label for="prop-agent-name">Nombre del Agente</label>
+                                    <input type="text" id="prop-agent-name" class="form-input" value="Juan Pérez">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-agent-phone">Teléfono del Agente</label>
+                                    <input type="text" id="prop-agent-phone" class="form-input" value="959656213">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-agent-email">Email del Agente</label>
+                                    <input type="email" id="prop-agent-email" class="form-input" value="juan@ambientesarequipa.com">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="prop-featured">
+                                <label for="prop-featured" style="font-weight: 700;">Destacar esta propiedad en el portal principal (Badge especial)</label>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-actions-bar">
+                            <button type="button" class="btn-cancel" onclick="hideForm()">Cancelar</button>
+                            <button type="submit" class="btn-save" id="btn-save-submit">Guardar Propiedad</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tabla de Listado de Propiedades Admin -->
+                <div class="table-responsive" style="margin-top: 24px;" id="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Ref.</th>
+                                <th>Foto</th>
+                                <th>Título</th>
+                                <th>Tipo</th>
+                                <th>Precio</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-properties-table-body">
+                            <!-- Inyectado dinámicamente con JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- DETALLES MODAL -->
+    <div class="modal" id="details-modal" onclick="closeModalOutside(event)">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="modal-gallery-section">
+                <img id="modal-primary-img" class="modal-main-image" src="" alt="Vista principal">
+                <div class="modal-thumbnails" id="modal-thumbnails-container">
+                    <!-- Generado por JS -->
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-info">
+                    <div class="modal-header-info">
+                        <div class="modal-meta">
+                            <span class="feature-tag" id="modal-badge-type">PISO</span>
+                            <span class="feature-tag" id="modal-badge-ref" style="background-color: var(--ebony); color: var(--white);">AR-0001</span>
+                            <span class="feature-tag" id="modal-badge-status" style="background-color: var(--disponible); color: var(--white);">Disponible</span>
+                        </div>
+                        <h2 class="modal-title" id="modal-title-text">Título de la propiedad</h2>
+                        <p class="card-location"><i class="fa-solid fa-location-dot"></i> <span id="modal-location-text">Cayma, Arequipa</span></p>
+                        <div class="modal-price" id="modal-price-text">S/ 450,000</div>
+                    </div>
+
+                    <div class="modal-specs-grid">
+                        <div class="spec-item">
+                            <i class="fa-solid fa-maximize"></i>
+                            <div>
+                                <div class="spec-label">Construido</div>
+                                <div class="spec-val" id="modal-spec-built">120 m²</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-ruler-horizontal"></i>
+                            <div>
+                                <div class="spec-label">Útil</div>
+                                <div class="spec-val" id="modal-spec-usable">100 m²</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-bed"></i>
+                            <div>
+                                <div class="spec-label">Dormitorios</div>
+                                <div class="spec-val" id="modal-spec-bedrooms">3</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-bath"></i>
+                            <div>
+                                <div class="spec-label">Baños</div>
+                                <div class="spec-val" id="modal-spec-bathrooms">2</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <div>
+                                <div class="spec-label">Piso/Planta</div>
+                                <div class="spec-val" id="modal-spec-floor">2</div>
+                            </div>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-calendar"></i>
+                            <div>
+                                <div class="spec-label">Año Const.</div>
+                                <div class="spec-val" id="modal-spec-year">2018</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-desc-box">
+                        <h4>Descripción</h4>
+                        <p id="modal-desc-text">Texto de descripción...</p>
+                    </div>
+
+                    <div class="modal-features-box">
+                        <h4>Características y Servicios</h4>
+                        <div class="modal-features-tags" id="modal-features-container">
+                            <!-- Badges inyectados con JS -->
+                        </div>
+                    </div>
+
+                    <div class="modal-map-box">
+                        <h4>Ubicación Aproximada</h4>
+                        <div class="map-mockup">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <div>
+                                <p style="font-weight: 700;" id="modal-map-address">Calle Los Pinos 123, Cayma</p>
+                                <p style="font-size: 0.8rem; opacity: 0.8;" id="modal-map-coords">Lat: -16.3989, Lng: -71.5350</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-sidebar">
+                    <div class="agent-card">
+                        <div class="agent-header">
+                            <div class="agent-avatar" id="modal-agent-avatar">JP</div>
+                            <div>
+                                <div class="agent-name" id="modal-agent-name">Juan Pérez</div>
+                                <div class="agent-role">Asesor Inmobiliario</div>
+                            </div>
+                        </div>
+                        <div class="agent-contacts">
+                            <div class="agent-contact-item">
+                                <i class="fa-solid fa-phone"></i>
+                                <span id="modal-agent-phone">+51 959656213</span>
+                            </div>
+                            <div class="agent-contact-item">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span id="modal-agent-email">juan@ambientesarequipa.com</span>
+                            </div>
+                        </div>
+
+                        <form class="contact-form" onsubmit="handleAgentContact(event)">
+                            <div class="form-group">
+                                <label for="lead-name">Tu Nombre</label>
+                                <input type="text" id="lead-name" class="form-input" required placeholder="Ingresa tu nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="lead-email">Tu Email</label>
+                                <input type="email" id="lead-email" class="form-input" required placeholder="Ingresa tu correo">
+                            </div>
+                            <div class="form-group">
+                                <label for="lead-phone">Tu Teléfono</label>
+                                <input type="tel" id="lead-phone" class="form-input" placeholder="Ingresa tu teléfono">
+                            </div>
+                            <div class="form-group">
+                                <label for="lead-message">Mensaje</label>
+                                <textarea id="lead-message" class="form-input" rows="3" required>Hola, estoy interesado en esta propiedad y me gustaría agendar una visita virtual o presencial.</textarea>
+                            </div>
+                            <button type="submit" class="btn-submit-contact">Solicitar Información</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN DE WHATSAPP FLOTANTE GENERAL (Apoya a los dos números principales) -->
+    <a href="https://wa.me/51959656213?text=Hola,%20solicito%20informaci%C3%B3n%20sobre%20las%20propiedades%20de%20AmbientesArequipa." class="whatsapp-float" target="_blank" title="Contactar por WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-house-chimney"></i> Ambientes<span>Arequipa</span>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2025 AmbientesArequipa - ambientesSRL. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Externo -->
+    <script src="app.js" defer></script>
+</body>
+</html>
