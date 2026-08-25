@@ -695,6 +695,11 @@ function showForm() {
     document.getElementById('form-title').innerText = 'Agregar Nueva Propiedad';
     document.getElementById('btn-save-submit').innerText = 'Guardar Propiedad';
     
+    // Limpiar previsualizaciones de imágenes cargadas y input file
+    document.getElementById('upload-preview-container').innerHTML = '';
+    const fileInput = document.getElementById('prop-upload-files');
+    if (fileInput) fileInput.value = '';
+
     // Autogenerar Referencia temporal para vista
     const props = getProperties();
     const nextRefNum = props.length + 1;
@@ -706,6 +711,9 @@ function hideForm() {
     document.getElementById('form-container').style.display = 'none';
     document.getElementById('admin-table-container').style.display = 'block';
     document.getElementById('admin-actions-bar').style.display = 'flex';
+    document.getElementById('upload-preview-container').innerHTML = '';
+    const fileInput = document.getElementById('prop-upload-files');
+    if (fileInput) fileInput.value = '';
 }
 
 function saveProperty(event) {
@@ -856,6 +864,9 @@ function editProperty(id) {
     document.getElementById('prop-img-2').value = prop.images && prop.images[1] ? prop.images[1] : '';
     document.getElementById('prop-img-3').value = prop.images && prop.images[2] ? prop.images[2] : '';
 
+    // Renderizar previsualizaciones de fotos
+    renderUploadPreview();
+
     // Agente
     document.getElementById('prop-agent-name').value = prop.agent_name || '';
     document.getElementById('prop-agent-phone').value = prop.agent_phone || '';
@@ -932,4 +943,105 @@ function logoutAdmin() {
     sessionStorage.removeItem('ambientes_authenticated');
     navigateTo('frontend');
     showToast('Sesión cerrada correctamente', 'success');
+}
+
+/* ----------------------------------------------------
+   I. CARGA DE IMÁGENES LOCALES A BASE64
+   ---------------------------------------------------- */
+function handleLocalFilesUpload(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    const imgInputs = [
+        document.getElementById('prop-img-1'),
+        document.getElementById('prop-img-2'),
+        document.getElementById('prop-img-3')
+    ];
+
+    let filesProcessed = 0;
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const base64String = e.target.result;
+            
+            // Encuentra la primera casilla de URL vacía
+            let placed = false;
+            for (let input of imgInputs) {
+                if (!input.value) {
+                    input.value = base64String;
+                    placed = true;
+                    break;
+                }
+            }
+
+            if (!placed) {
+                showToast('Límite de 3 fotos alcanzado en el formulario', 'error');
+            } else {
+                renderUploadPreview();
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+    
+    // Limpiar input file para permitir volver a cargar los mismos archivos si se desea
+    event.target.value = '';
+}
+
+function renderUploadPreview() {
+    const previewContainer = document.getElementById('upload-preview-container');
+    if (!previewContainer) return;
+    
+    previewContainer.innerHTML = '';
+
+    const imgInputs = [
+        document.getElementById('prop-img-1'),
+        document.getElementById('prop-img-2'),
+        document.getElementById('prop-img-3')
+    ];
+
+    imgInputs.forEach((input, index) => {
+        if (input.value) {
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.style.width = '80px';
+            wrapper.style.height = '60px';
+            wrapper.style.borderRadius = '8px';
+            wrapper.style.overflow = 'hidden';
+            wrapper.style.border = '2px solid var(--gray-light)';
+            wrapper.style.boxShadow = 'var(--shadow-sm)';
+
+            const img = document.createElement('img');
+            img.src = input.value;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+
+            const delBtn = document.createElement('button');
+            delBtn.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+            delBtn.type = 'button';
+            delBtn.style.position = 'absolute';
+            delBtn.style.top = '2px';
+            delBtn.style.right = '2px';
+            delBtn.style.color = 'var(--cta)';
+            delBtn.style.backgroundColor = 'var(--white)';
+            delBtn.style.borderRadius = '50%';
+            delBtn.style.width = '18px';
+            delBtn.style.height = '18px';
+            delBtn.style.display = 'flex';
+            delBtn.style.alignItems = 'center';
+            delBtn.style.justifyContent = 'center';
+            delBtn.style.fontSize = '0.9rem';
+            delBtn.style.cursor = 'pointer';
+            delBtn.style.border = 'none';
+            delBtn.style.padding = '0';
+            delBtn.onclick = function() {
+                input.value = '';
+                renderUploadPreview();
+            };
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(delBtn);
+            previewContainer.appendChild(wrapper);
+        }
+    });
 }

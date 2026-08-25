@@ -422,21 +422,28 @@
                                 </div>
                             </fieldset>
 
-                            <!-- SECCIÓN 6: Imágenes (URLs) -->
+                            <!-- SECCIÓN 6: Imágenes (URLs y Carga de Archivos) -->
                             <fieldset>
-                                <legend><i class="fa-solid fa-images"></i> Galería de Imágenes (URLs de fotos)</legend>
+                                <legend><i class="fa-solid fa-images"></i> Galería de Imágenes</legend>
+                                <div class="form-group" style="margin-bottom: 15px;">
+                                    <label for="prop-upload-files" style="font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                                        <i class="fa-solid fa-file-arrow-up" style="color: var(--cta);"></i> Cargar Fotos Locales (Se guardarán en el portal)
+                                    </label>
+                                    <input type="file" id="prop-upload-files" class="form-input" multiple accept="image/*" onchange="handleLocalFilesUpload(event)" style="padding: 10px; border: 2px dashed rgba(26, 77, 62, 0.2); background: var(--secondary); text-align: center; cursor: pointer;">
+                                    <div id="upload-preview-container" style="display: flex; gap: 12px; margin-top: 15px; flex-wrap: wrap;"></div>
+                                </div>
                                 <div class="form-group">
-                                    <label for="prop-img-1">URL Imagen 1 (Principal) *</label>
-                                    <input type="url" id="prop-img-1" class="form-input" required placeholder="https://ejemplo.com/foto1.jpg">
+                                    <label for="prop-img-1">URL / Ruta de Imagen 1 (Principal) *</label>
+                                    <input type="url" id="prop-img-1" class="form-input" required placeholder="https://ejemplo.com/foto1.jpg o cargada localmente">
                                 </div>
                                 <br>
                                 <div class="form-group">
-                                    <label for="prop-img-2">URL Imagen 2</label>
+                                    <label for="prop-img-2">URL / Ruta de Imagen 2</label>
                                     <input type="url" id="prop-img-2" class="form-input" placeholder="https://ejemplo.com/foto2.jpg">
                                 </div>
                                 <br>
                                 <div class="form-group">
-                                    <label for="prop-img-3">URL Imagen 3</label>
+                                    <label for="prop-img-3">URL / Ruta de Imagen 3</label>
                                     <input type="url" id="prop-img-3" class="form-input" placeholder="https://ejemplo.com/foto3.jpg">
                                 </div>
                             </fieldset>
@@ -638,9 +645,13 @@
     </div>
 
     <!-- BOTÓN DE WHATSAPP FLOTANTE GENERAL (Apoya a los dos números principales) -->
-    <a href="https://wa.me/51959656213?text=Hola,%20solicito%20informaci%C3%B3n%20sobre%20las%20propiedades%20de%20AmbientesArequipa." class="whatsapp-float" target="_blank" title="Contactar por WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <div class="whatsapp-container">
+        <span class="whatsapp-tooltip">¿En qué te puedo ayudar? 💬</span>
+        <a href="https://wa.me/51959656213?text=Hola,%20solicito%20informaci%C3%B3n%20sobre%20las%20propiedades%20de%20AmbientesArequipa." class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span class="whatsapp-pulse"></span>
+        </a>
+    </div>
 
     <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toast-container"></div>
