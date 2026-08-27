@@ -33,28 +33,28 @@
 
 [data-theme="dark"] {
     /* Tema Oscuro */
-    --primary: #0B211A;       /* Verde Bosque Oscuro Profundo */
+    --primary: #081712;       /* Verde Bosque Oscuro Profundo */
     --primary-light: #123C30;
-    --secondary: #0D0F0E;     /* Negro / Verde extremadamente oscuro */
-    --card-bg: #151817;       /* Gris carbón oscuro con matiz verde */
-    --cta: #F07E33;           /* Naranja Volcán más brillante para contraste */
+    --secondary: #0A0C0B;     /* Fondo más oscuro */
+    --card-bg: #151817;       /* Fondo de tarjeta oscuro */
+    --cta: #FF8F43;           /* Naranja volcánico más brillante para mejor contraste */
     --cta-hover: #E86A17;
-    --ebony: #F5F5F5;         /* Títulos principales en modo oscuro */
-    --anthracite: #B3C1BD;    /* Texto de cuerpo claro/verdoso */
-    --mint: #32A078;
-    --border-color: #242B28;  /* Bordes sutiles en modo oscuro */
+    --ebony: #FFFFFF;         /* Blanco puro para títulos principales */
+    --anthracite: #CBD5E1;    /* Texto de cuerpo claro brillante */
+    --mint: #4ade80;
+    --border-color: #2D3732;  /* Bordes más notables */
     --search-bg: rgba(21, 24, 23, 0.85);
-    --search-border: rgba(36, 43, 40, 0.5);
+    --search-border: rgba(45, 55, 50, 0.5);
     
     /* Utilidades */
-    --disponible: #32A078;
-    --reservada: #F07E33;
-    --vendida: #6B7572;
+    --disponible: #4ade80;
+    --reservada: #FF8F43;
+    --vendida: #94A3B8;
     --white: #FFFFFF;
-    --gray-light: #242B28;
-    --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
-    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+    --gray-light: #2D3732;
+    --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
 /* ----------------------------------------------------
@@ -516,7 +516,7 @@ header {
     display: flex;
     justify-content: space-between;
     padding-top: 18px;
-    border-top: 1px solid rgba(226, 232, 240, 0.8);
+    border-top: 1px solid var(--border-color);
     margin-top: auto;
     font-size: 0.85rem;
 }
@@ -536,7 +536,7 @@ header {
 .btn-card-details {
     margin-top: 18px;
     width: 100%;
-    background-color: var(--primary);
+    background-color: var(--primary-light);
     color: var(--white);
     height: 46px;
     border-radius: var(--border-radius-md);
@@ -715,10 +715,10 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 15px;
-    background-color: var(--white);
+    background-color: var(--secondary);
     padding: 20px;
     border-radius: var(--border-radius-sm);
-    border: 1px solid var(--gray-light);
+    border: 1px solid var(--border-color);
 }
 
 .spec-item {
@@ -769,8 +769,8 @@ header {
 
 /* Mapa Simulado */
 .map-mockup {
-    background-color: #E9ECEF;
-    border: 1px solid var(--gray-light);
+    background-color: var(--secondary);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius-sm);
     height: 200px;
     display: flex;
@@ -796,9 +796,9 @@ header {
 }
 
 .agent-card {
-    background-color: var(--white);
+    background-color: var(--secondary);
     border-radius: var(--border-radius-sm);
-    border: 1px solid var(--gray-light);
+    border: 1px solid var(--border-color);
     padding: 24px;
     box-shadow: var(--shadow-sm);
 }
@@ -1283,10 +1283,10 @@ header {
 }
 
 .contact-form-card {
-    background-color: var(--white);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius-md);
     padding: 40px;
-    border: 1px solid var(--gray-light);
+    border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
 }
 
@@ -1300,6 +1300,7 @@ header {
     flex-direction: column;
     gap: 10px;
     z-index: 2000;
+    pointer-events: none;
 }
 
 .toast {
@@ -1316,6 +1317,7 @@ header {
     animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     font-weight: 500;
     border: 1px solid rgba(255, 255, 255, 0.15);
+    pointer-events: auto;
 }
 
 .toast.success {
