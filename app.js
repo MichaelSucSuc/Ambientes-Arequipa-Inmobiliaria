@@ -552,10 +552,10 @@ function openDetails(id) {
     const initials = agentName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
     document.getElementById('modal-agent-avatar').innerText = initials;
 
-    // Configurar el botón de WhatsApp dinámico para este agente
-    const cleanPhone = agentPhone.replace(/\s+/g, '');
-    const waText = encodeURIComponent(`Hola ${agentName}, estoy interesado en la propiedad "${prop.title}" (Ref: ${prop.reference}). Solicito más información.`);
-    const waUrl = `https://wa.me/51${cleanPhone}?text=${waText}`;
+    // Configurar el botón de WhatsApp para dirigir al número principal
+    const mainPhone = '959656213';
+    const waText = encodeURIComponent(`Hola, estoy interesado en la propiedad "${prop.title}" (Ref: ${prop.reference}). Solicito más información.`);
+    const waUrl = `https://wa.me/51${mainPhone}?text=${waText}`;
     
     // Buscar o inyectar el botón de WhatsApp
     let waBtn = document.getElementById('modal-wa-btn');
