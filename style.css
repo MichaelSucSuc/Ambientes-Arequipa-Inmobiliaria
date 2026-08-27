@@ -1037,6 +1037,27 @@ header {
     color: var(--white);
 }
 
+/* Admin Tabs Style */
+.admin-tab {
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--gray-light);
+    background-color: transparent;
+    color: var(--anthracite);
+}
+
+.admin-tab.active {
+    background-color: var(--primary) !important;
+    color: var(--white) !important;
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-tab:hover:not(.active) {
+    background-color: rgba(26, 77, 62, 0.05);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 /* ----------------------------------------------------
    9. FORMULARIO DE CREACIÓN/EDICIÓN (CRUD)
    ---------------------------------------------------- */
