@@ -2,28 +2,59 @@
    1. SISTEMA DE DISEÑO Y VARIABLES (MÉTODO 60-30-10)
    ---------------------------------------------------- */
 :root {
-    /* Colores Principales */
-    --primary: #1A4D3E;       /* Verde Bosque (30% - headers/fondos oscuros) */
-    --secondary: #F9F7F2;     /* Blanco Sillar (60% - fondo general/tarjetas) */
-    --cta: #E86A17;           /* Naranja Volcán (10% - botones, destaques) */
-    --cta-hover: #D55B0F;     /* Naranja Volcán Oscurecido */
-    --ebony: #1A1A1A;         /* Negro Ébano (Títulos, precios destacados) */
-    --anthracite: #4A4A4A;    /* Gris Antracita (Texto de cuerpo/descripciones) */
-    --mint: #2E7D5E;          /* Verde Menta (Acento y etiquetas especiales) */
+    /* Tema Claro (Default) */
+    --primary: #123C30;       /* Verde Bosque de Lujo */
+    --primary-light: #1A4D3E;
+    --secondary: #FAF8F5;     /* Blanco Sillar Cálido / Crema Suave */
+    --card-bg: #FFFFFF;       /* Fondo de tarjetas */
+    --cta: #E86A17;           /* Naranja Volcán */
+    --cta-hover: #D55B0F;
+    --ebony: #1A1A1A;         /* Títulos principales */
+    --anthracite: #444444;    /* Texto de cuerpo */
+    --mint: #226b50;
+    --border-color: #E6E2DA;  /* Gris cálido para bordes */
+    --search-bg: rgba(255, 255, 255, 0.85);
+    --search-border: rgba(255, 255, 255, 0.5);
     
     /* Colores de Estado y Utilidades */
-    --disponible: #2E7D5E;
+    --disponible: #226b50;
     --reservada: #E86A17;
-    --vendida: #8C8C8C;
+    --vendida: #7A7A7A;
     --white: #FFFFFF;
-    --gray-light: #E2E8F0;    /* Gris Claro para bordes y separadores */
-    --shadow-sm: 0 2px 4px rgba(26, 26, 26, 0.05);
-    --shadow-md: 0 4px 12px rgba(26, 26, 26, 0.08);
-    --shadow-lg: 0 10px 25px rgba(26, 26, 26, 0.12);
+    --gray-light: #EAE5DE;
+    --shadow-sm: 0 4px 10px rgba(18, 60, 48, 0.04);
+    --shadow-md: 0 8px 24px rgba(18, 60, 48, 0.07);
+    --shadow-lg: 0 16px 40px rgba(18, 60, 48, 0.12);
     --border-radius-sm: 6px;
     --border-radius-md: 12px;
-    --border-radius-lg: 20px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --border-radius-lg: 24px;
+    --transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+[data-theme="dark"] {
+    /* Tema Oscuro */
+    --primary: #0B211A;       /* Verde Bosque Oscuro Profundo */
+    --primary-light: #123C30;
+    --secondary: #0D0F0E;     /* Negro / Verde extremadamente oscuro */
+    --card-bg: #151817;       /* Gris carbón oscuro con matiz verde */
+    --cta: #F07E33;           /* Naranja Volcán más brillante para contraste */
+    --cta-hover: #E86A17;
+    --ebony: #F5F5F5;         /* Títulos principales en modo oscuro */
+    --anthracite: #B3C1BD;    /* Texto de cuerpo claro/verdoso */
+    --mint: #32A078;
+    --border-color: #242B28;  /* Bordes sutiles en modo oscuro */
+    --search-bg: rgba(21, 24, 23, 0.85);
+    --search-border: rgba(36, 43, 40, 0.5);
+    
+    /* Utilidades */
+    --disponible: #32A078;
+    --reservada: #F07E33;
+    --vendida: #6B7572;
+    --white: #FFFFFF;
+    --gray-light: #242B28;
+    --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* ----------------------------------------------------
@@ -44,12 +75,14 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Playfair Display', serif;
     color: var(--ebony);
     font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 a {
@@ -87,6 +120,7 @@ header {
     top: 0;
     z-index: 100;
     box-shadow: var(--shadow-md);
+    transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 .header-container {
@@ -94,6 +128,26 @@ header {
     justify-content: space-between;
     align-items: center;
     height: 80px;
+}
+
+.theme-toggle-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.theme-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
 }
 
 .logo {
@@ -193,26 +247,25 @@ header {
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Buscador Flotante Glassmorphic */
 .search-container {
-    background: rgba(255, 255, 255, 0.85);
+    background: var(--search-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: var(--border-radius-lg);
     padding: 35px;
     max-width: 1100px;
     margin: 0 auto;
-    box-shadow: 0 20px 40px rgba(26, 26, 26, 0.15);
+    box-shadow: var(--shadow-lg);
     position: relative;
     z-index: 10;
     margin-top: -80px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--search-border);
     transition: var(--transition);
 }
 
 .search-container:hover {
-    box-shadow: 0 25px 50px rgba(26, 26, 26, 0.2);
-    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-color);
 }
 
 .search-form {
@@ -233,7 +286,7 @@ header {
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
-    color: var(--primary);
+    color: var(--cta);
     letter-spacing: 1px;
 }
 
@@ -241,20 +294,19 @@ header {
     width: 100%;
     height: 52px;
     padding: 12px 16px;
-    border: 1px solid rgba(26, 77, 62, 0.15);
-    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius-md);
     color: var(--ebony);
     font-size: 0.95rem;
     outline: none;
     transition: var(--transition);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .search-input:focus {
-    border-color: var(--primary);
-    background-color: var(--white);
-    box-shadow: 0 0 0 4px rgba(26, 77, 62, 0.12);
+    border-color: var(--cta);
+    background-color: var(--card-bg);
+    box-shadow: 0 0 0 4px rgba(232, 106, 23, 0.12);
 }
 
 .btn-search {
@@ -336,11 +388,11 @@ header {
 }
 
 .property-card {
-    background-color: var(--white);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
@@ -349,8 +401,8 @@ header {
 
 .property-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(26, 77, 62, 0.12);
-    border-color: rgba(26, 77, 62, 0.2);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
 }
 
 .card-img-container {
@@ -546,17 +598,17 @@ header {
 }
 
 .modal-container {
-    background-color: var(--secondary);
+    background-color: var(--card-bg);
     width: 100%;
     max-width: 1050px;
     max-height: 90vh;
     border-radius: var(--border-radius-lg);
     overflow-y: auto;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-lg);
     position: relative;
     transform: scale(0.92) translateY(30px);
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--border-color);
 }
 
 .modal.active .modal-container {

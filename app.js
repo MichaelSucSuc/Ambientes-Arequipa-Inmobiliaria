@@ -654,11 +654,6 @@ function renderAdmin() {
     document.getElementById('stat-disponibles').innerText = disponibles;
     document.getElementById('stat-vendidas').innerText = vendidas;
 
-    // Actualizar contador de solicitudes
-    const reqs = getSellerRequests();
-    const badge = document.getElementById('badge-requests-count');
-    if (badge) badge.innerText = reqs.length;
-
     // Renderizar la tabla de administración
     const tbody = document.getElementById('admin-properties-table-body');
     tbody.innerHTML = '';
@@ -922,6 +917,7 @@ function showToast(message, type = 'success') {
 
 // Cargar todo al iniciar
 window.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     initDB();
     renderPublicCatalog();
 });
@@ -1054,229 +1050,33 @@ function renderUploadPreview() {
 }
 
 /* ----------------------------------------------------
-   J. SECCIÓN VENDER - SOLICITUDES DE PROPIETARIOS
+   K. CONTROL DE MODO OSCURO / CLARO
    ---------------------------------------------------- */
-const SELLER_REQUESTS_KEY = 'ambientes_seller_requests';
-
-function getSellerRequests() {
-    return JSON.parse(localStorage.getItem(SELLER_REQUESTS_KEY)) || [];
+function initTheme() {
+    const savedTheme = localStorage.getItem('ambientes_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
 }
 
-function saveSellerRequests(requests) {
-    localStorage.setItem(SELLER_REQUESTS_KEY, JSON.stringify(requests));
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     
-    // Actualizar el contador de solicitudes en el panel admin si existe
-    const badge = document.getElementById('badge-requests-count');
-    if (badge) {
-        badge.innerText = requests.length;
-    }
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('ambientes_theme', newTheme);
+    updateThemeIcon(newTheme);
+    showToast(`Modo ${newTheme === 'dark' ? 'oscuro' : 'claro'} activado`, 'success');
 }
 
-function handleSellerRequest(event) {
-    event.preventDefault();
+function updateThemeIcon(theme) {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
     
-    const requests = getSellerRequests();
-    
-    const newRequest = {
-        id: 'req_' + Date.now(),
-        date: new Date().toLocaleDateString('es-PE'),
-        ownerName: document.getElementById('owner-name').value,
-        ownerPhone: document.getElementById('owner-phone').value,
-        ownerEmail: document.getElementById('owner-email').value,
-        title: document.getElementById('seller-title').value,
-        type: document.getElementById('seller-type').value,
-        price: parseFloat(document.getElementById('seller-price').value),
-        bedrooms: parseInt(document.getElementById('seller-bedrooms').value) || 0,
-        bathrooms: parseInt(document.getElementById('seller-bathrooms').value) || 0,
-        built: parseFloat(document.getElementById('seller-built').value) || 0,
-        address: document.getElementById('seller-address').value,
-        description: document.getElementById('seller-description').value
-    };
-    
-    requests.push(newRequest);
-    saveSellerRequests(requests);
-    
-    showToast('¡Propuesta recibida! Nos comunicaremos con usted a la brevedad.', 'success');
-    event.target.reset();
-    navigateTo('frontend');
-}
-
-// Alternar entre pestañas en el Panel Admin
-let activeAdminTab = 'inventory';
-
-function switchAdminTab(tab) {
-    activeAdminTab = tab;
-    
-    const tabInventory = document.getElementById('tab-inventory');
-    const tabRequests = document.getElementById('tab-requests');
-    const inventorySection = document.getElementById('admin-inventory-section');
-    const requestsSection = document.getElementById('admin-requests-section');
-    
-    if (tab === 'inventory') {
-        tabInventory.classList.add('active');
-        tabInventory.style.backgroundColor = 'var(--primary)';
-        tabInventory.style.color = 'var(--white)';
-        
-        tabRequests.classList.remove('active');
-        tabRequests.style.backgroundColor = 'transparent';
-        tabRequests.style.color = 'var(--anthracite)';
-        
-        inventorySection.style.display = 'block';
-        requestsSection.style.display = 'none';
-        renderAdmin();
+    if (theme === 'dark') {
+        btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
     } else {
-        tabRequests.classList.add('active');
-        tabRequests.style.backgroundColor = 'var(--primary)';
-        tabRequests.style.color = 'var(--white)';
-        
-        tabInventory.classList.remove('active');
-        tabInventory.style.backgroundColor = 'transparent';
-        tabInventory.style.color = 'var(--anthracite)';
-        
-        inventorySection.style.display = 'none';
-        requestsSection.style.display = 'block';
-        renderSellerRequests();
+        btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
     }
 }
 
-// Renderizar tabla de solicitudes de venta
-function renderSellerRequests() {
-    const requests = getSellerRequests();
-    const tbody = document.getElementById('admin-requests-table-body');
-    if (!tbody) return;
-    
-    tbody.innerHTML = '';
-    
-    // Actualizar badge
-    const badge = document.getElementById('badge-requests-count');
-    if (badge) badge.innerText = requests.length;
-    
-    if (requests.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="7" style="text-align: center; padding: 30px; opacity: 0.6;">
-                    No hay solicitudes de venta pendientes de revisión.
-                </td>
-            </tr>
-        `;
-        return;
-    }
-    
-    requests.forEach(req => {
-        const tr = document.createElement('tr');
-        
-        // Generar enlace rápido a WhatsApp
-        const waText = encodeURIComponent(`Hola ${req.ownerName}, nos contactamos de AmbientesArequipa sobre tu propiedad "${req.title}" que registraste para venta.`);
-        const waUrl = `https://wa.me/51${req.ownerPhone.trim()}?text=${waText}`;
-        
-        tr.innerHTML = `
-            <td>${req.date}</td>
-            <td><strong>${req.ownerName}</strong></td>
-            <td>
-                <div style="font-size: 0.85rem;">
-                    <div><a href="${waUrl}" target="_blank" style="color: var(--mint); font-weight:600;"><i class="fa-brands fa-whatsapp"></i> ${req.ownerPhone}</a></div>
-                    <div style="opacity: 0.7;">${req.ownerEmail}</div>
-                </div>
-            </td>
-            <td>
-                <div style="font-weight: 600; max-width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="${req.title}">${req.title}</div>
-                <div style="font-size: 0.8rem; opacity: 0.7;">${req.type} | ${req.bedrooms} Hab | ${req.bathrooms} Bñ | ${req.built}m²</div>
-            </td>
-            <td><div style="max-width: 150px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="${req.address}">${req.address}</div></td>
-            <td style="font-weight: 700; color: var(--primary);">S/ ${req.price.toLocaleString('es-PE')}</td>
-            <td>
-                <div class="action-btns">
-                    <button class="btn-action btn-edit" title="Aprobar y Publicar" onclick="approveSellerRequest('${req.id}')" style="background-color: rgba(46, 125, 94, 0.15); color: var(--mint); font-size:1rem; width: 36px; height: 36px;">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </button>
-                    <button class="btn-action btn-delete" title="Rechazar / Eliminar" onclick="deleteSellerRequest('${req.id}')" style="background-color: rgba(232, 106, 23, 0.15); color: var(--cta); font-size:1rem; width: 36px; height: 36px;">
-                        <i class="fa-solid fa-circle-xmark"></i>
-                    </button>
-                </div>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
 
-// Aprobar solicitud y publicarla automáticamente
-function approveSellerRequest(id) {
-    const requests = getSellerRequests();
-    const req = requests.find(r => r.id === id);
-    if (!req) return;
-    
-    const confirmApprove = confirm(`¿Desea aprobar y publicar en el catálogo la propiedad "${req.title}" de ${req.ownerName}?`);
-    if (!confirmApprove) return;
-    
-    const properties = getProperties();
-    
-    // Crear objeto con estructura del catálogo
-    const newRefNum = properties.length + 1;
-    const nextRef = `AR-${String(newRefNum).padStart(4, '0')}`;
-    
-    const newProp = {
-        id: 'prop_' + Date.now(),
-        title: req.title,
-        description: req.description,
-        type: req.type,
-        price: req.price,
-        currency: "S/",
-        status: "Disponible",
-        reference: nextRef,
-        surface_built: req.built,
-        surface_usable: Math.round(req.built * 0.9),
-        surface_plot: req.type === 'Casa' || req.type === 'Chalet' || req.type === 'Terreno' ? req.built : 0,
-        bedrooms: req.bedrooms,
-        bathrooms: req.bathrooms,
-        toilets: req.bathrooms > 1 ? 1 : 0,
-        floor: req.type === 'Piso' || req.type === 'Ático' ? 2 : 1,
-        year_built: new Date().getFullYear(),
-        address: req.address,
-        city: "Arequipa",
-        postal_code: "04000",
-        province: "Arequipa",
-        country: "Perú",
-        lat: -16.3989 + (Math.random() - 0.5) * 0.04,
-        lng: -71.5350 + (Math.random() - 0.5) * 0.04,
-        features: ["Cocina Equipada", "Accesibilidad"],
-        images: [
-            "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80", // Foto de stock bonita
-            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
-        ],
-        agent_name: "Juan Pérez", // Asignado a Juan por defecto
-        agent_phone: "959656213",
-        agent_email: "juan@ambientesarequipa.com",
-        featured: false,
-        created_at: new Date().toISOString().split('T')[0]
-    };
-    
-    // Guardar propiedad
-    properties.push(newProp);
-    saveProperties(properties);
-    
-    // Quitar solicitud aprobada
-    const newRequests = requests.filter(r => r.id !== id);
-    saveSellerRequests(newRequests);
-    
-    showToast(`¡Propiedad aprobada y publicada con referencia ${nextRef}!`, 'success');
-    
-    // Recargar vistas
-    renderSellerRequests();
-    renderAdmin();
-}
-
-// Rechazar/Eliminar solicitud de propietario
-function deleteSellerRequest(id) {
-    const requests = getSellerRequests();
-    const req = requests.find(r => r.id === id);
-    if (!req) return;
-    
-    const confirmDelete = confirm(`¿Está seguro de que desea rechazar y eliminar la solicitud de "${req.title}" enviada por ${req.ownerName}?`);
-    if (!confirmDelete) return;
-    
-    const newRequests = requests.filter(r => r.id !== id);
-    saveSellerRequests(newRequests);
-    
-    showToast('Solicitud descartada.', 'error');
-    renderSellerRequests();
-}
