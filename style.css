@@ -29,6 +29,7 @@
     --border-radius-md: 12px;
     --border-radius-lg: 24px;
     --transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    --footer-bg: #111513;     /* Fondo oscuro elegante para el footer */
 }
 
 [data-theme="dark"] {
@@ -45,6 +46,7 @@
     --border-color: #2D3732;  /* Bordes más notables */
     --search-bg: rgba(21, 24, 23, 0.85);
     --search-border: rgba(45, 55, 50, 0.5);
+    --footer-bg: #050606;     /* Fondo ultra-oscuro para el footer en modo oscuro */
     
     /* Utilidades */
     --disponible: #4ade80;
@@ -1419,11 +1421,11 @@ header {
    11. FOOTER
    ---------------------------------------------------- */
 footer {
-    background-color: var(--ebony);
-    color: var(--secondary);
+    background-color: var(--footer-bg);
+    color: rgba(255, 255, 255, 0.8);
     padding: 40px 0;
     margin-top: auto;
-    border-top: 4px solid var(--primary);
+    border-top: 4px solid var(--primary-light);
 }
 
 .footer-content {
