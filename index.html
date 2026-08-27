@@ -27,14 +27,9 @@
                 Ambientes<span>Arequipa</span>
             </a>
             
-            <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
-                <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Cambiar tema">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
-                <button class="menu-toggle" onclick="toggleMobileMenu()">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
 
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="#" class="nav-link active" id="nav-comprar" onclick="navigateTo('frontend')">Comprar</a></li>
@@ -43,6 +38,11 @@
                 <li>
                     <button class="btn-admin-toggle" onclick="navigateTo('admin')">
                         <i class="fa-solid fa-lock"></i> Admin Panel
+                    </button>
+                </li>
+                <li>
+                    <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Cambiar tema">
+                        <i class="fa-solid fa-moon"></i>
                     </button>
                 </li>
             </ul>
@@ -242,7 +242,12 @@
                             </div>
                             <button type="submit" class="btn-submit-contact">Enviar Mensaje</button>
                         </form>
-                    </div>
+                </div>
+                
+                <!-- MAPA DE UBICACIÓN -->
+                <div style="margin-top: 50px;">
+                    <h3 style="margin-bottom: 20px; font-family: 'Playfair Display', serif; color: var(--ebony);">Nuestra Oficina</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3824.4533036063623!2d-71.5458!3d-16.3852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91424a60183b56a1%3A0xa33ec8020d5c0b1b!2sAv.+Cayma+512%2C+Cayma+04018!5e0!3m2!1ses-419!2spe!4v1710000000000!5m2!1ses-419!2spe" width="100%" height="380" style="border:0; border-radius: var(--border-radius-md); box-shadow: var(--shadow-md);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>

@@ -1065,7 +1065,6 @@ function toggleTheme() {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('ambientes_theme', newTheme);
     updateThemeIcon(newTheme);
-    showToast(`Modo ${newTheme === 'dark' ? 'oscuro' : 'claro'} activado`, 'success');
 }
 
 function updateThemeIcon(theme) {
