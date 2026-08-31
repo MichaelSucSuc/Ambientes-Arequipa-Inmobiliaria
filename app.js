@@ -324,20 +324,36 @@ function navigateTo(section) {
     // Si navega al panel admin, validar autenticación primero
     if (section === 'admin') {
         const isAuth = sessionStorage.getItem('ambientes_authenticated') === 'true';
-        if (!isAuth) {
-            document.querySelectorAll('.page-section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            const targetSec = document.getElementById('section-admin');
-            if (targetSec) targetSec.classList.add('active');
+        document.querySelectorAll('.page-section').forEach(sec => {
+            sec.classList.remove('active');
+        });
+        const targetSec = document.getElementById('section-admin');
+        if (targetSec) targetSec.classList.add('active');
 
+        // Reset active link style
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // Close mobile menu if open
+        const navMenu = document.getElementById('nav-menu');
+        if (navMenu) navMenu.classList.remove('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (!isAuth) {
             document.getElementById('admin-login-container').style.display = 'flex';
             document.getElementById('admin-main-panel').style.display = 'none';
-            document.getElementById('nav-menu').classList.remove('active');
+            const passInput = document.getElementById('admin-password-input');
+            if (passInput) setTimeout(() => passInput.focus(), 150);
             return;
         } else {
             document.getElementById('admin-login-container').style.display = 'none';
             document.getElementById('admin-main-panel').style.display = 'block';
+            document.getElementById('admin-table-container').style.display = 'block';
+            document.getElementById('admin-actions-bar').style.display = 'flex';
+            document.getElementById('form-container').style.display = 'none';
+            renderAdmin();
+            return;
         }
     }
 
@@ -362,12 +378,11 @@ function navigateTo(section) {
     }
 
     // Close mobile menu if open
-    document.getElementById('nav-menu').classList.remove('active');
+    const navMenu = document.getElementById('nav-menu');
+    if (navMenu) navMenu.classList.remove('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    if (section === 'admin') {
-        renderAdmin();
-    } else if (section === 'frontend') {
+    if (section === 'frontend') {
         renderPublicCatalog();
     }
 }
@@ -672,7 +687,7 @@ function renderAdmin() {
             <td><div style="font-weight: 600; max-width: 250px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${prop.title}</div></td>
             <td>${prop.type}</td>
             <td style="font-weight: 700;">${prop.currency} ${prop.price.toLocaleString('es-PE')}</td>
-            <td><span class="table-badge-status ${statusClass}" style="color:var(--white);">${prop.status}</span></td>
+            <td><span class="table-badge-status ${statusClass}">${prop.status}</span></td>
             <td>
                 <div class="action-btns">
                     <button class="btn-action btn-edit" title="Editar" onclick="editProperty('${prop.id}')">
@@ -934,9 +949,13 @@ function checkAdminPassword(event) {
         sessionStorage.setItem('ambientes_authenticated', 'true');
         document.getElementById('admin-login-container').style.display = 'none';
         document.getElementById('admin-main-panel').style.display = 'block';
+        document.getElementById('admin-table-container').style.display = 'block';
+        document.getElementById('admin-actions-bar').style.display = 'flex';
+        document.getElementById('form-container').style.display = 'none';
         renderAdmin();
         showToast('Acceso concedido', 'success');
         document.getElementById('admin-password-input').value = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
         showToast('Contraseña incorrecta', 'error');
     }

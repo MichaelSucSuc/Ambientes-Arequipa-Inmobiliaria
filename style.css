@@ -34,26 +34,26 @@
 
 [data-theme="dark"] {
     /* Tema Oscuro */
-    --primary: #081712;       /* Verde Bosque Oscuro Profundo */
-    --primary-light: #123C30;
-    --secondary: #0A0C0B;     /* Fondo más oscuro */
-    --card-bg: #151817;       /* Fondo de tarjeta oscuro */
-    --cta: #FF8F43;           /* Naranja volcánico más brillante para mejor contraste */
-    --cta-hover: #E86A17;
-    --ebony: #FFFFFF;         /* Blanco puro para títulos principales */
-    --anthracite: #CBD5E1;    /* Texto de cuerpo claro brillante */
-    --mint: #4ade80;
-    --border-color: #2D3732;  /* Bordes más notables */
-    --search-bg: rgba(21, 24, 23, 0.85);
-    --search-border: rgba(45, 55, 50, 0.5);
-    --footer-bg: #050606;     /* Fondo ultra-oscuro para el footer en modo oscuro */
+    --primary: #123C30;       /* Verde Bosque de Lujo */
+    --primary-light: #1E5C48;
+    --secondary: #0D1210;     /* Fondo principal oscuro profundo */
+    --card-bg: #161D19;       /* Superficie oscura para tarjetas y paneles */
+    --cta: #FF8F43;           /* Naranja volcánico con óptimo contraste */
+    --cta-hover: #FFA35C;
+    --ebony: #FFFFFF;         /* Blanco puro para títulos y encabezados */
+    --anthracite: #D1D5DB;    /* Gris claro para textos secundarios */
+    --mint: #4ADE80;
+    --border-color: #26332E;  /* Bordes sutiles y limpios */
+    --search-bg: rgba(22, 29, 25, 0.92);
+    --search-border: rgba(38, 51, 46, 0.8);
+    --footer-bg: #080B0A;     /* Fondo ultra-oscuro para el footer */
     
     /* Utilidades */
-    --disponible: #4ade80;
+    --disponible: #4ADE80;
     --reservada: #FF8F43;
     --vendida: #94A3B8;
     --white: #FFFFFF;
-    --gray-light: #2D3732;
+    --gray-light: #26332E;
     --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.4);
     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
     --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
@@ -875,18 +875,32 @@ header {
 
 .form-input {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--gray-light);
+    padding: 11px 14px;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius-sm);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     background-color: var(--secondary);
+    color: var(--ebony);
     outline: none;
     transition: var(--transition);
 }
 
 .form-input:focus {
-    border-color: var(--primary);
-    background-color: var(--white);
+    border-color: var(--cta);
+    background-color: var(--card-bg);
+    box-shadow: 0 0 0 3px rgba(232, 106, 23, 0.18);
+}
+
+.form-input:disabled {
+    background-color: var(--gray-light);
+    color: var(--anthracite);
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.form-input::placeholder {
+    color: var(--anthracite);
+    opacity: 0.65;
 }
 
 .btn-submit-contact {
@@ -934,14 +948,20 @@ header {
 }
 
 .stat-card {
-    background-color: var(--white);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius-md);
     padding: 24px;
-    border: 1px solid var(--gray-light);
+    border: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .stat-info {
@@ -950,7 +970,7 @@ header {
 }
 
 .stat-num {
-    font-size: 2.2rem;
+    font-size: 2.3rem;
     font-weight: 800;
     color: var(--ebony);
     line-height: 1.2;
@@ -962,11 +982,13 @@ header {
     font-weight: 600;
     color: var(--anthracite);
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
 }
 
 .stat-icon-box {
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -974,9 +996,29 @@ header {
     font-size: 1.5rem;
 }
 
-.stat-icon-1 { background-color: rgba(26, 77, 62, 0.1); color: var(--primary); }
-.stat-icon-2 { background-color: rgba(46, 125, 94, 0.1); color: var(--mint); }
-.stat-icon-3 { background-color: rgba(232, 106, 23, 0.1); color: var(--cta); }
+.stat-icon-1 { 
+    background-color: rgba(18, 60, 48, 0.12); 
+    color: var(--mint); 
+}
+.stat-icon-2 { 
+    background-color: rgba(34, 107, 80, 0.12); 
+    color: var(--mint); 
+}
+.stat-icon-3 { 
+    background-color: rgba(232, 106, 23, 0.12); 
+    color: var(--cta); 
+}
+
+[data-theme="dark"] .stat-icon-1,
+[data-theme="dark"] .stat-icon-2 {
+    background-color: rgba(74, 222, 128, 0.15);
+    color: var(--mint);
+}
+
+[data-theme="dark"] .stat-icon-3 {
+    background-color: rgba(255, 143, 67, 0.15);
+    color: var(--cta);
+}
 
 .admin-actions {
     margin-bottom: 24px;
@@ -993,19 +1035,21 @@ header {
     display: flex;
     align-items: center;
     gap: 8px;
+    box-shadow: 0 4px 14px rgba(232, 106, 23, 0.3);
 }
 
 .btn-add-property:hover {
     background-color: var(--cta-hover);
+    transform: translateY(-1px);
 }
 
 /* Tabla de propiedades */
 .table-responsive {
     width: 100%;
     overflow-x: auto;
-    background-color: var(--white);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--gray-light);
+    border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
 }
 
@@ -1022,11 +1066,13 @@ header {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .admin-table td {
     padding: 16px;
-    border-bottom: 1px solid var(--gray-light);
+    border-bottom: 1px solid var(--border-color);
     font-size: 0.9rem;
     color: var(--ebony);
     vertical-align: middle;
@@ -1037,23 +1083,65 @@ header {
 }
 
 .admin-table tr:hover td {
-    background-color: var(--secondary);
+    background-color: rgba(18, 60, 48, 0.04);
+}
+
+[data-theme="dark"] .admin-table tr:hover td {
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
 .table-thumb {
     width: 60px;
     height: 45px;
     object-fit: cover;
-    border-radius: 4px;
-    border: 1px solid var(--gray-light);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
 }
 
 .table-badge-status {
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 5px 12px;
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+.status-disponible { 
+    background-color: rgba(34, 107, 80, 0.15); 
+    color: #1A5943; 
+    border: 1px solid rgba(34, 107, 80, 0.35);
+}
+
+.status-reservada { 
+    background-color: rgba(232, 106, 23, 0.15); 
+    color: #B84D08; 
+    border: 1px solid rgba(232, 106, 23, 0.35);
+}
+
+.status-vendida { 
+    background-color: rgba(100, 116, 139, 0.15); 
+    color: #475569; 
+    border: 1px solid rgba(100, 116, 139, 0.35);
+}
+
+[data-theme="dark"] .status-disponible { 
+    background-color: rgba(74, 222, 128, 0.18); 
+    color: #4ADE80; 
+    border: 1px solid rgba(74, 222, 128, 0.4);
+}
+
+[data-theme="dark"] .status-reservada { 
+    background-color: rgba(255, 143, 67, 0.18); 
+    color: #FF8F43; 
+    border: 1px solid rgba(255, 143, 67, 0.4);
+}
+
+[data-theme="dark"] .status-vendida { 
+    background-color: rgba(148, 163, 184, 0.18); 
+    color: #CBD5E1; 
+    border: 1px solid rgba(148, 163, 184, 0.4);
 }
 
 .action-btns {
@@ -1062,40 +1150,45 @@ header {
 }
 
 .btn-action {
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    transition: var(--transition);
 }
 
 .btn-edit {
-    background-color: rgba(46, 125, 94, 0.1);
+    background-color: rgba(34, 107, 80, 0.12);
     color: var(--mint);
+    border: 1px solid rgba(34, 107, 80, 0.25);
 }
 
 .btn-edit:hover {
     background-color: var(--mint);
     color: var(--white);
+    border-color: var(--mint);
 }
 
 .btn-delete {
-    background-color: rgba(232, 106, 23, 0.1);
+    background-color: rgba(232, 106, 23, 0.12);
     color: var(--cta);
+    border: 1px solid rgba(232, 106, 23, 0.25);
 }
 
 .btn-delete:hover {
     background-color: var(--cta);
     color: var(--white);
+    border-color: var(--cta);
 }
 
 /* Admin Tabs Style */
 .admin-tab {
     cursor: pointer;
     transition: var(--transition);
-    border: 1px solid var(--gray-light);
+    border: 1px solid var(--border-color);
     background-color: transparent;
     color: var(--anthracite);
 }
@@ -1107,7 +1200,7 @@ header {
 }
 
 .admin-tab:hover:not(.active) {
-    background-color: rgba(26, 77, 62, 0.05);
+    background-color: rgba(18, 60, 48, 0.06);
     border-color: var(--primary);
     color: var(--primary);
 }
@@ -1116,10 +1209,10 @@ header {
    9. FORMULARIO DE CREACIÓN/EDICIÓN (CRUD)
    ---------------------------------------------------- */
 .form-section-container {
-    background-color: var(--white);
+    background-color: var(--card-bg);
     border-radius: var(--border-radius-md);
-    padding: 30px;
-    border: 1px solid var(--gray-light);
+    padding: 32px;
+    border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     margin-top: 30px;
 }
@@ -1128,9 +1221,24 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid var(--gray-light);
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 15px;
     margin-bottom: 30px;
+}
+
+.form-title-bar h3 {
+    color: var(--ebony);
+    font-size: 1.5rem;
+}
+
+.form-title-bar button {
+    color: var(--anthracite);
+    font-size: 1.5rem;
+    transition: var(--transition);
+}
+
+.form-title-bar button:hover {
+    color: var(--cta);
 }
 
 .property-form fieldset {
@@ -1143,14 +1251,14 @@ header {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--ebony);
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
     width: 100%;
-    border-bottom: 1px solid var(--gray-light);
-    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
 }
 
 .property-form legend i {
@@ -1182,7 +1290,7 @@ header {
     background-color: var(--secondary);
     padding: 20px;
     border-radius: var(--border-radius-sm);
-    border: 1px solid var(--gray-light);
+    border: 1px solid var(--border-color);
 }
 
 .checkbox-item {
@@ -1190,12 +1298,15 @@ header {
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    color: var(--ebony);
+    font-weight: 500;
+    font-size: 0.9rem;
 }
 
 .checkbox-item input {
     width: 18px;
     height: 18px;
-    accent-color: var(--primary);
+    accent-color: var(--cta);
     cursor: pointer;
 }
 
@@ -1203,32 +1314,38 @@ header {
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-    border-top: 1px solid var(--gray-light);
-    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 24px;
+    margin-top: 20px;
 }
 
 .btn-cancel {
-    background-color: var(--gray-light);
+    background-color: var(--secondary);
     color: var(--ebony);
     padding: 12px 24px;
     border-radius: var(--border-radius-sm);
     font-weight: 700;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
 }
 
 .btn-cancel:hover {
-    background-color: #D6D3CB;
+    background-color: var(--border-color);
+    border-color: var(--anthracite);
 }
 
 .btn-save {
     background-color: var(--cta);
     color: var(--white);
-    padding: 12px 24px;
+    padding: 12px 28px;
     border-radius: var(--border-radius-sm);
     font-weight: 700;
+    box-shadow: 0 4px 14px rgba(232, 106, 23, 0.3);
 }
 
 .btn-save:hover {
     background-color: var(--cta-hover);
+    transform: translateY(-1px);
 }
 
 /* ----------------------------------------------------
